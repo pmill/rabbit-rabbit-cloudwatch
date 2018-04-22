@@ -40,7 +40,7 @@ $manager = new ConsumerManager($config);
 
 $vhostName = '/';
 $queueName = 'messages';
-$metricName = '';
+$metricName = 'queue_:queueName';
 
 $cloudWatchClient = new CloudWatchClient([
     'version' => 'latest',
@@ -58,7 +58,7 @@ $manager->addRule(
         $cloudWatchClient,
         $metricName
     ),
-    new GreaterThan(0)`
+    new GreaterThan(0)
 );
 
 $manager->run();

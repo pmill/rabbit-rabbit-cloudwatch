@@ -1,8 +1,10 @@
 <?php
 
 use Aws\CloudWatch\CloudWatchClient;
+use pmill\RabbitRabbit\Conditions\GreaterThan;
 use pmill\RabbitRabbit\ConsumerManager;
 use pmill\RabbitRabbit\RabbitConfig;
+use pmill\RabbitRabbitCloudWatch\CloudWatchRule;
 
 require __DIR__ . '/../vendor/autoload.php';
 
@@ -27,8 +29,13 @@ $cloudWatchClient = new CloudWatchClient([
 ]);
 
 $manager->addRule(
-    new \pmill\RabbitRabbitCloudWatch\CloudWatchRule($vhostName, $queueName, $cloudWatchClient, 'queue_:queueName'),
-    new \pmill\RabbitRabbit\Conditions\GreaterThan(0, true)
+    new CloudWatchRule(
+        $vhostName,
+        $queueName,
+        $cloudWatchClient,
+        'queue_:queueName'
+    ),
+    new GreaterThan(0, true)
 );
 
 $manager->run();

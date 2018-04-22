@@ -27,9 +27,7 @@ composer require pmill/rabbit-rabbit-cloudwatch
 
 # Usage
 
-The following example will set the service desired task count to 1 if the number of messages in the queue is less than 
-5000, if the count is greater than 5000 then it will set the desired task count to 3. There is a complete example in the 
-`examples/` folder.
+The following example send the current queue count as a metric to Amazon CloudWatch.
 
 ```php
 $config = new RabbitConfig([
@@ -60,7 +58,7 @@ $manager->addRule(
         $cloudWatchClient,
         $metricName
     ),
-    new GreaterThan(0)
+    new GreaterThan(0)`
 );
 
 $manager->run();
